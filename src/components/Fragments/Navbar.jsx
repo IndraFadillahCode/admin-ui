@@ -1,7 +1,10 @@
-import { NavLink } from "react-router-dom";
-import { Icon } from "../Elements/Icon/Index";
-import Logo from "../Elements/Logo/Index";
-const Navbar = () => {
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { Icon } from "../Elements/Icon";
+import Logo from '../Elements/Logo';
+
+export const Navbar = () => {
+
   const menus = [
     {
       id: "overview",
@@ -22,10 +25,10 @@ const Navbar = () => {
       label: "Transaction",
     },
     {
-      id: "bill",
-      link: "/bill",
-      icon: <Icon.Bill />,
-      label: "Bill",
+      id: "bills",
+      link: "/bills",
+      icon: <Icon.Bills />,
+      label: "Bills",
     },
     {
       id: "expenses",
@@ -34,10 +37,10 @@ const Navbar = () => {
       label: "Expenses",
     },
     {
-      id: "goal",
-      link: "/goal",
-      icon: <Icon.Goal />,
-      label: "Goal",
+      id: "goals",
+      link: "/goals",
+      icon: <Icon.Goals />,
+      label: "Goals",
     },
     {
       id: "setting",
@@ -48,47 +51,48 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="bg-defaultBlack">
-    <nav className="sticky top-0 text-special-bg2 sm:w-72 w-36 min-h-screen px-7 py-12 flex flex-col justify-between">
+    <nav className="bg-defaultBlack sticky top-0 text-special-bg2 sm:w-72 w-28 min-h-screen px-7 py-12 flex flex-col justify-between">
       <div>
-        <NavLink to="/" className="flex justify-center mb-10">
-          <Logo variant="text-white text-sm sm-text-2xl" />
-        </NavLink>
+      <div className="flex justify-center mb-10">
+          <Logo variant="text-white text-sm sm:text-8x1" />
+        </div>
         {menus.map((menu) => (
-          // eslint-disable-next-line react/jsx-key
-          <NavLink key={menu.id} to={menu.link} className={({ isActive }) => (isActive ? "flex bg-primary text-white font-bold px-4 py-3 rounded-md" : "flex hover:bg-special-bg3 hover:text-white px-4 py-3 rounded-md")}>
+          <NavLink 
+            key={menu.id} 
+            to={menu.link}
+            className={({ isActive }) => 
+              isActive
+              ? "flex bg-primary text-white font-bold px-4 py-3 rounded-md"
+              : "flex hover:bg-special-bg3 hover:text-white px-4 py-3 rounded-md"
+            }
+          >
             <div className="mx-auto sm:mx-0">{menu.icon}</div>
             <div className="ms-3 hidden sm:block">{menu.label}</div>
           </NavLink>
         ))}
       </div>
       <div className="sticky bottom-12">
-        <NavLink to="/login">
-          <div className="flex bg-special-bg3 px-4 py-3 rounded-md hover:text-white">
-            <div className="mx-auto sm:mx-0">
-              <Icon.Logout />
-            </div>
-            <div className="ms-3 hidden sm:block">Logout</div>
+        <NavLink to="/logout" className="flex bg-special-bg3 px-4 py-3 rounded-md">
+          <div className="mx-auto sm:mx-0">
+            <Icon.Logout />
           </div>
+          <div className="ms-3 hidden sm:block">Logout</div>
         </NavLink>
-
         <div className="border-b my-10 border-b-special-bg"></div>
         <div className="flex justify-between">
-          <div className="mx-auto sm:mx-0">
-            <img src="images/profile.png"></img>
+          <div className="mx-auto sm:mx-0 self-center">
+            <img src="images/profile.png" alt="Profile" />
           </div>
           <div className="hidden sm:block">
             <div className="text-white font-bold">Username</div>
             <div className="text-xs">View Profile</div>
           </div>
-          <div className="hidden sm:block self-center justify-self-end">
+          <div className="hidden sm:block self-center justify-end">
             <Icon.KebabMenu />
-            
           </div>
         </div>
       </div>
     </nav>
-    </div>
   );
 };
 
