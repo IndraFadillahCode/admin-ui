@@ -6,11 +6,8 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        body: ['Inter'],
-        poppins: ['Poppins'],
-      },
-      colors: {
+      colors : {
+        warnaku : "#88AB8E",
         primary: "var(--color-primary)",
         secondary: "#525256",
         defaultBlack: "#191919", 
@@ -28,10 +25,13 @@ export default {
           "mainBg": "#F4F5F7",
           "green": "#E73D1C",
           "red": "#4DAF6E"
-        },
-      },
+        } 
+      }
     },
+    fontFamily: {
+      body: ['Roboto Slab'],
+      Noto_Sans_Korean : ['Noto Sans Korean']
+    }
   },
   plugins: [],
 }
-
