@@ -5,60 +5,58 @@ import Card from "../../Elements/Card";
 import CompositionExample from "../../Elements/GaugeChart";
 import { Icon } from "../../Elements/Icons";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const CardGoal = () => {
-    const [goals, setGoals] = useState({presentAmount:0, targetAmount:0});
+  const [goals, setGoals] = useState({ presentAmount: 0, targetAmount: 0 });
+  const chartValue = (goals.presentAmount * 100) / goals.targetAmount;
+  const value = (goals.targetAmount * 100) / goals.presentAmount;
+  const [isLoading,setLoading] = useState(false);
+  const getData = async () => {
+    setLoading(true);
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
 
-    const chartValue = (goals.presentAmount * 100) / goals.targetAmount;
+      const response = await axios.get(
+        "https://jwt-auth-eight-neon.vercel.app/goals",
+        {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        }
+      );
 
-    const getData = async () => {
-      try {
-        const refreshToken = localStorage.getItem("refreshToken");
-  
-        const response = await axios.get(
-          "https://jwt-auth-eight-neon.vercel.app/goals",
-          {
-            headers: {
-              Authorization: `Bearer ${refreshToken}`,
-            },
-          }
-        );
-
-        setGoals({
-          presentAmount: response.data.data[0].present_amount,
-          targetAmount: response.data.data[0].target_amount,
-        });
-  
-        // console.log(response);
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status == 401) {
-            setOpen(true);
-            setMsg({
-              severity: "error",
-              desc: "Session Has Expired. Please Login.",
-            });
-        
-            setIsLoggedIn(false);
-            setName("");
-        
-            localStorage.removeItem("refreshToken");
-            navigate("/login");
-          } else {
-            console.log(error.response);
-          }
+      console.log(response);
+      setGoals({presentAmount :response.data.data[0].present_amount, targetAmount : response.data.data[0].target_amount});
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status == 401) {
+          setOpen(true);
+          setMsg({
+            severity: "error",
+            desc: "Session Has Expired. Please Login.",
+          });
+      
+          setIsLoggedIn(false);
+          setName("");
+      
+          localStorage.removeItem("refreshToken");
+          navigate("/login");
+        } else {
+          console.log(error.response);
         }
       }
-    }; 
+    }
+    setLoading(false);
+  };
 
-    useEffect(() => {
-      getData();
-    }, []);
-
-  return (
+  useEffect(() => {
+    getData();
+  }, []);
+  return  (
     <Card
       title="Goals"
-      desc={
+      desc= {isLoading ? <CircularProgress color="inherit" /> : 
         <div className="p-2">
           <div className="flex justify-between">
             <div className="flex">
@@ -100,7 +98,7 @@ const CardGoal = () => {
               </div>
             </div>
             <div className="ms-4 text-center">
-              <CompositionExample desc={chartValue}/>
+              <CompositionExample desc={chartValue} />
               <div className="flex justify-between">
                 <span className="text-gray-03">$0</span>
                 <span className="font-bold text-2xl">12K</span>
