@@ -1,6 +1,6 @@
+import Header from "../Fragments/Header";
+import Navbar from "../Fragments/Navbar";
 import { useContext } from "react";
-import { Header } from "../Fragments/Header";
-import { Navbar } from "../Fragments/Navbar";
 import { ThemeContext } from "../../context/themeContext";
 import { NotifContext } from "../../context/notifContext";
 import SimpleBackdrop from "../Elements/Backdrop";
